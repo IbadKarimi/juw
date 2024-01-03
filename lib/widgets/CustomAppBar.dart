@@ -2,24 +2,49 @@
 
 
 
-
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: Colors.deepPurpleAccent.shade100,
       title: Text('JUW SERVICE'),
       actions: [
-        /*  IconButton(onPressed: (){}, icon: Icon(Icons.search,color: Colors.amber,)),
+        Stack(
+          children: [
+            Container(
+              width: 40.w,
+              height: 40.h,
+              margin: EdgeInsets.only(right: 15.w),
 
-        IconButton(onPressed: (){}, icon: Icon(Icons.filter_alt_sharp,color: Colors.amber,)),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("lib/images/avatars/avatar-1.png"),
+                  fit: BoxFit.cover
+                ),
 
-        IconButton(onPressed: (){}, icon: Icon(Icons.person,color: Colors.amber,)),*/
+                borderRadius: BorderRadius.circular(100.r)
+
+              ),
+
+            ),
+            Container(
+              width: 10.w,
+              height: 10.h,
+              margin: EdgeInsets.only(top:25.h,left: 33.w),
+              decoration: BoxDecoration(
+                  color: Colors.green,
+
+
+                  borderRadius: BorderRadius.circular(100.r)
+
+              ),
+            ),
+          ],
+        )
 
 
 

@@ -7,17 +7,20 @@ import 'package:juw/widgets/CustomAppBar.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
-import '../widgets/Constatant.dart';
-import '../widgets/CustomDrawer.dart';
+import '../../widgets/Constatant.dart';
+import '../../widgets/CustomSupervisorDrawer.dart';
+import '../../widgets/CustomTecnicianDrawer.dart';
 
 
 
-class DashBoard extends StatefulWidget{
+
+
+class TechnicianDashBoard extends StatefulWidget{
   @override
-  State<DashBoard > createState() => _DashBoard ();
+  State<TechnicianDashBoard > createState() => _TechnicianDashBoard();
 }
 
-class _DashBoard  extends State<DashBoard >{
+class _TechnicianDashBoard  extends State<TechnicianDashBoard >{
   @override
   //The instance to be injected
   bool _isLoading = false;
@@ -37,7 +40,7 @@ class _DashBoard  extends State<DashBoard >{
   Widget build(BuildContext context) {
     return Scaffold(
 
-        drawer: CustomDrawer(),
+        drawer: CustomTechnicianDrawer(),
         appBar: CustomAppBar(),
         body: SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -90,6 +93,7 @@ class _DashBoard  extends State<DashBoard >{
                                       color:purpleColor,
                                       borderRadius: BorderRadius.circular(20.r)
                                   ),
+                                  child: Icon(Icons.trending_up_sharp,color: Colors.white,),
                                 ),
                                 Column(
 
@@ -142,6 +146,7 @@ class _DashBoard  extends State<DashBoard >{
                                       color:Colors.green,
                                       borderRadius: BorderRadius.circular(20.r)
                                   ),
+                                  child: Icon(Icons.person_3_outlined,color: Colors.white,),
                                 ),
                                 Column(
 
@@ -195,6 +200,7 @@ class _DashBoard  extends State<DashBoard >{
                                       color:Colors.orange,
                                       borderRadius: BorderRadius.circular(20.r)
                                   ),
+                                  child: Icon(Icons.screenshot_monitor,color: Colors.white,),
                                 ),
                                 Column(
 
@@ -249,6 +255,7 @@ class _DashBoard  extends State<DashBoard >{
                                       color:Colors.lightBlueAccent,
                                       borderRadius: BorderRadius.circular(20.r)
                                   ),
+                                  child: Icon(Icons.monetization_on_outlined,color: Colors.white,),
                                 ),
                                 Column(
 
@@ -301,7 +308,7 @@ class _DashBoard  extends State<DashBoard >{
 
                           //-------------4th
 
-                         SizedBox(height: 10.h,)
+                          SizedBox(height: 10.h,)
 
 
                         ],),
@@ -324,16 +331,16 @@ class _DashBoard  extends State<DashBoard >{
                           tooltipBehavior: TooltipBehavior(enable: true),
                           series: <CartesianSeries<_SalesData, String>>[
                             BarSeries<_SalesData, String>(
-                                dataSource: data,
-                                xValueMapper: (_SalesData sales, _) => sales.year,
-                                yValueMapper: (_SalesData sales, _) => sales.sales,
-                                name: 'Overview',
-                                // Enable data label
-                                dataLabelSettings: DataLabelSettings(isVisible: true),
+                              dataSource: data,
+                              xValueMapper: (_SalesData sales, _) => sales.year,
+                              yValueMapper: (_SalesData sales, _) => sales.sales,
+                              name: 'Overview',
+                              // Enable data label
+                              dataLabelSettings: DataLabelSettings(isVisible: true),
 
-                            // Set different colors for each bar
-                            pointColorMapper: (_SalesData sales, _) => sales.barColor,)
-                          ]),
+                              // Set different colors for each bar
+                              /// pointColorMapper: (_SalesData sales, _) => sales.barColor,)
+                            )]),
                     ),
                     Expanded(
                       child: Padding(

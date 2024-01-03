@@ -18,6 +18,8 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
   final _formKey=GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController officeNoController = TextEditingController();
+
 
 
   String _selectedDepartment = "Select Department";
@@ -69,7 +71,7 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
                     child: Center(
                       child: Container(
                         width: 350.w,
-                        height: 570.h,
+                        height: 590.h,
 
                         color: Colors.white,
                         child: Column(
@@ -174,7 +176,7 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
                                     ),),
                                 ),
                               ),
-                              SizedBox( height:10.h),
+
                               Padding(
                                 padding:  EdgeInsets.only(left:24.w),
                                 child: Row(
@@ -237,6 +239,21 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
                                             ))),
                                   ],
                                 ),
+                              ),
+                              SizedBox(height: 10.h,),
+                              Center(
+                                child: SizedBox(
+                                    width: 300.w,
+                                    height: 45.h,
+                                    child: TextFormField(
+                                      style: TextStyle(color: Colors.black),
+
+                                      controller: officeNoController,
+                                      decoration: InputDecoration(label: Text("Office Number") ,
+
+                                        border: OutlineInputBorder(),
+
+                                      ),)),
                               ),
                               SizedBox(height: 10.h,),
                               Center(

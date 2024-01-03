@@ -2,6 +2,9 @@
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:juw/Views/authentication/SignUp.dart';
 
 
 
@@ -193,7 +196,9 @@ class _LoginFormWidget  extends State<LoginFormWidget >{
                           ),
                         ),
                                     Center(
-                                      child:   Container(
+                                      child:
+
+                                      Container(
                                         margin: EdgeInsets.only(top:60.h,bottom: 20.h),
                                         width: 300.w,
                                         height: 45.h,
@@ -238,16 +243,22 @@ class _LoginFormWidget  extends State<LoginFormWidget >{
                                           fontWeight: FontWeight.w500,
                                         ),
                                       )),
-                                  Padding(
-                                      padding: EdgeInsets.only(top: 5.h, left: 30.w, bottom: 0.h),
-                                      child: Text(
-                                        "Create an Account",
-                                        style: TextStyle(
-                                          color: Colors.deepPurpleAccent.shade200,
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      )),
+                                  GestureDetector(
+                                    onTap: (){
+                                      Get.to(()=>SignUpFormWidget());
+                                    }
+                                    ,
+                                    child: Padding(
+                                        padding: EdgeInsets.only(top: 5.h, left: 30.w, bottom: 0.h),
+                                        child: Text(
+                                          "Create an Account",
+                                          style: TextStyle(
+                                            color: Colors.deepPurpleAccent.shade200,
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        )),
+                                  ),
                                 ],
                               ),
 

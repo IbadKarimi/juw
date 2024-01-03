@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:juw/Views/DashBoard.dart';
-import 'package:juw/Views/SignUp.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'Views/Supervisor/SupervisorComplaint.dart';
+
+
 
 
 
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
     splitScreenMode: true,
     // Use builder only if you need to use library outside ScreenUtilInit context
     builder: (_ , child) {
-     return MaterialApp(
+     return GetMaterialApp(
        debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:DashBoard()
+      home:SupervisorComplaint()
     );
     });}
 }
