@@ -2,6 +2,11 @@
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:juw/ApiServices/Api.dart';
+
+import '../Staff/DashBoard.dart';
 
 
 
@@ -19,6 +24,8 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController officeNoController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  ApiServices apiServices=ApiServices();
 
 
 
@@ -27,8 +34,8 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
 
     "Select Department",
     "Computer Science",
-    'Staff',
-    'Student',
+    'Management',
+    'IT',
 
 
 
@@ -38,7 +45,7 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
   String _selectedBlock = "Select Block";
   final selectedBlockList = [
      "Select Block",
-    "A","B","C"
+    "A","B","C","D","F","G"
 
 
 
@@ -66,12 +73,12 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
 
                   key: _formKey,
                   child: Container(
-                    margin: EdgeInsets.only(top:20.h),
+                    margin: EdgeInsets.only(top:80.h),
 
                     child: Center(
                       child: Container(
                         width: 350.w,
-                        height: 590.h,
+                        height: 1000.h,
 
                         color: Colors.white,
                         child: Column(
@@ -144,15 +151,18 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
                               Center(
                                 child: Container(
                                   width: 300.w,
-                                  height: 45.h,
+
 
                                   child: TextFormField(
-                                    controller: emailController,
+                                    controller: nameController,
                                     style: TextStyle(color: Colors.black),
 
                                     decoration: InputDecoration(
 
+
                                       label: Text("User Name") ,
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.symmetric(vertical: 14.0,horizontal: 11),
 
                                       border: OutlineInputBorder(),
                                     ),),
@@ -162,13 +172,15 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
                               Center(
                                 child: Container(
                                   width: 300.w,
-                                  height: 45.h,
+
 
                                   child: TextFormField(
                                     controller: emailController,
                                     style: TextStyle(color: Colors.black),
 
                                     decoration: InputDecoration(
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.symmetric(vertical: 14.0,horizontal: 11),
 
                                       label: Text("Email") ,
 
@@ -196,8 +208,8 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
                                                 return DropdownMenuItem<String>(
                                                     child:
                                                     Padding(
-                                                      padding:  EdgeInsets.only(left:2.0),
-                                                      child: Text(e,style: TextStyle(color: Colors.black),),
+                                                      padding:  EdgeInsets.only(left:2.w),
+                                                      child: Text(e,style: TextStyle(color: Colors.black,fontSize: 12.sp),),
                                                     ), value: e);
                                               }).toList(),
                                               onChanged: (newValue) {
@@ -226,7 +238,7 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
                                                     child:
                                                     Padding(
                                                       padding:  EdgeInsets.only(left:2.w),
-                                                      child: Text(e,style: TextStyle(color: Colors.black,fontSize: 14.sp),),
+                                                      child: Text(e,style: TextStyle(color: Colors.black,fontSize: 12.sp),),
                                                     ), value: e);
                                               }).toList(),
                                               onChanged: (newValue) {
@@ -250,6 +262,8 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
 
                                       controller: officeNoController,
                                       decoration: InputDecoration(label: Text("Office Number") ,
+                                        isDense: true,
+                                        contentPadding: EdgeInsets.symmetric(vertical: 14.0,horizontal: 11),
 
                                         border: OutlineInputBorder(),
 
@@ -259,7 +273,7 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
                               Center(
                                 child: SizedBox(
                                     width: 300.w,
-                                    height: 45.h,
+
                                     child: TextFormField(
                                       style: TextStyle(color: Colors.black),
 
@@ -267,6 +281,8 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
                                       decoration: InputDecoration(label: Text("Password") ,
                                         suffixIcon:Icon(Icons.remove_red_eye_outlined,color: Colors.grey,),
                                         border: OutlineInputBorder(),
+                                        isDense: true,
+                                        contentPadding: EdgeInsets.symmetric(vertical: 14.0,horizontal: 11),
 
                                       ),)),
                               ),
@@ -287,7 +303,13 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
                                         width: 300.w,
                                         height: 45.h,
                                         child:ElevatedButton(
-                                            onPressed:(){},
+                                            onPressed:()async{
+
+                                              String response=await apiServices.userSignUp(nameController.text, emailController.text, passwordController.text, "technician", _selectedDepartment, _selectedBlock, officeNoController.text);
+                                              if(response=="200"){
+                                                Get.to(()=>StaffDashBoard());
+                                              }
+                                            },
 
 
 
@@ -331,7 +353,7 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
                                   Padding(
                                       padding: EdgeInsets.only(top: 5.h, left: 30.w, bottom: 0.h),
                                       child: Text(
-                                        "Sign in Insted",
+                                        "Sign in Instead",
                                         style: TextStyle(
                                           color: Colors.deepPurpleAccent.shade200,
                                           fontSize: 12.sp,

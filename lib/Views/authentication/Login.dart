@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:juw/Views/Staff/DashBoard.dart';
+import 'package:juw/Views/Supervisor/SupervisorDashBoard.dart';
 import 'package:juw/Views/authentication/SignUp.dart';
 
 
@@ -51,7 +53,7 @@ class _LoginFormWidget  extends State<LoginFormWidget >{
                     child: Center(
                       child: Container(
                         width: 350.w,
-                        height: 470.h,
+                        height: 540.h,
 
                         color: Colors.white,
                         child: Column(
@@ -124,15 +126,24 @@ class _LoginFormWidget  extends State<LoginFormWidget >{
                               Center(
                                 child: Container(
                                   width: 300.w,
-                                  height: 45.h,
+
 
                                   child: TextFormField(
                                     controller: emailController,
+                                    validator: (value){
+                                      if(value!.isEmpty){
+                                        return "Email is Required";
+                                      }
+
+                                    },
                                     style: TextStyle(color: Colors.black),
 
                                     decoration: InputDecoration(
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.symmetric(vertical: 14.0,horizontal: 11),
 
                                       label: Text("Email") ,
+
 
                                       border: OutlineInputBorder(),
                                     ),),
@@ -144,14 +155,27 @@ class _LoginFormWidget  extends State<LoginFormWidget >{
                               Center(
                                 child: SizedBox(
                                     width: 300.w,
-                                    height: 45.h,
+
                                     child: TextFormField(
+
+                                      validator: (value){
+                                        if(value!.isEmpty){
+                                          return "Password is Required";
+                                        }
+
+                                      },
+
+
                                       style: TextStyle(color: Colors.black),
+
 
                                       controller: passwordController,
                                       decoration: InputDecoration(label: Text("Password") ,
                                         suffixIcon:Icon(Icons.remove_red_eye_outlined,color: Colors.grey,),
                                         border: OutlineInputBorder(),
+                                        helperText: "",
+                                        isDense: true,
+                                        contentPadding: EdgeInsets.symmetric(vertical: 14.0,horizontal: 11),
 
                                       ),)),
                               ),
@@ -203,7 +227,17 @@ class _LoginFormWidget  extends State<LoginFormWidget >{
                                         width: 300.w,
                                         height: 45.h,
                                         child:ElevatedButton(
-                                            onPressed:(){},
+                                            onPressed:(){
+                                              if(_formKey.currentState!.validate()){
+
+                                                if(emailController.text=="supervisor@gmail.com" && passwordController.text=="test#123"){
+                                                  Get.to(()=>SupervisorDashBoard());
+
+                                                }
+
+
+                                              }
+                                            },
 
 
 

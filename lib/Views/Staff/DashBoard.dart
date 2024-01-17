@@ -12,12 +12,12 @@ import '../../widgets/CustomDrawer.dart';
 
 
 
-class DashBoard extends StatefulWidget{
+class StaffDashBoard extends StatefulWidget{
   @override
-  State<DashBoard > createState() => _DashBoard ();
+  State<StaffDashBoard > createState() => _StaffDashBoard ();
 }
 
-class _DashBoard  extends State<DashBoard >{
+class _StaffDashBoard  extends State<StaffDashBoard >{
   @override
   //The instance to be injected
   bool _isLoading = false;

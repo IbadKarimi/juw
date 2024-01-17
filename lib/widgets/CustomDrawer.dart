@@ -104,14 +104,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
         ListTile(
           leading: GestureDetector(onTap:(){
-            Get.to(()=>DashBoard());
+            Get.to(()=>StaffDashBoard());
 
           },
             child:Icon(Icons.home),),
           title: const Text('DashBoard',style: TextStyle(color: Colors.black),),
           onTap: () {
 
-            Get.to(()=>DashBoard());
+            Get.to(()=>StaffDashBoard());
 
           },
         ),
