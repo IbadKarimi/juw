@@ -2,9 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:juw/ApiServices/Api.dart';
 import 'package:juw/widgets/CustomAppBar.dart';
 import 'package:juw/widgets/CustomSupervisorDrawer.dart';
 import 'dart:io';
+
+import '../../Models/SupervisorModel.dart';
 
 
 
@@ -69,6 +72,25 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
 
 
   ];
+  ApiServices apiService=ApiServices();
+  List<SupervisorModel> getSuperVisorComplaintData=[];
+
+
+  void initState(){
+
+    apiService.getSupervisorComplaint().then((value){
+      setState(() {
+        getSuperVisorComplaintData.addAll(value);
+      });
+
+      for(int i=0;i<getSuperVisorComplaintData.length;i++){
+        print("name is ==========="+getSuperVisorComplaintData[i].status.toString());
+      }
+    });
+
+
+    super.initState();
+  }
 
 
 
@@ -82,7 +104,7 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
+
                   color: Colors.grey.shade100,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -93,7 +115,7 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
 
                       Container(
                           margin: EdgeInsets.only(left:15.w,top:60.h),
-                          width: MediaQuery.of(context).size.width-30,
+
 
                           color: Colors.white,
 
@@ -124,10 +146,13 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                 ),
 
                                 //--------1st Column
+                                for(int i=0;i<getSuperVisorComplaintData.length;i++)
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    //loop add here
+
                                     Column(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,7 +166,7 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                             "ID",
                                             style: TextStyle(
                                               color: Colors.grey.shade600,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -152,7 +177,7 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                             "COMPLAINT BY",
                                             style: TextStyle(
                                               color: Colors.grey.shade600,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -164,7 +189,7 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                             "TITLE",
                                             style: TextStyle(
                                               color: Colors.grey.shade600,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -176,7 +201,7 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                             "TECHNICIAN",
                                             style: TextStyle(
                                               color: Colors.grey.shade600,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -189,7 +214,7 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                             "STATUS",
                                             style: TextStyle(
                                               color: Colors.grey.shade600,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -202,7 +227,7 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                             "CREATED AT",
                                             style: TextStyle(
                                               color: Colors.grey.shade600,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -214,7 +239,7 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                             "RESOLVE AT",
                                             style: TextStyle(
                                               color: Colors.grey.shade600,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -226,7 +251,7 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                             "ACTION",
                                             style: TextStyle(
                                               color: Colors.grey.shade600,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -241,9 +266,9 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
 
 
                                     Container(
-                                      margin: EdgeInsets.only(top:30.h,left: 50.w),
+                                      margin: EdgeInsets.only(top:30.h,left: 20.w),
                                       width: 1,
-                                      height: 390.h,// Adjust the width to control the line thickness
+                                      height: 280.h,// Adjust the width to control the line thickness
                                       color: Colors.grey,
                                     ),
                                     SizedBox(width: 20.w,),
@@ -255,48 +280,23 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
 
 
                                         Padding(
-                                          padding: EdgeInsets.only(top: 30.h, left: 24.w, ),
+                                          padding: EdgeInsets.only(top: 30.h, left: 5.w, ),
                                           child:  Text(
-                                            "ID",
+                                            getSuperVisorComplaintData[i].complaintId.toString(),
                                             style: TextStyle(
                                               color: Colors.grey,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(top: 10.h, left: 24.w, ),
+                                          padding: EdgeInsets.only(top: 10.h, left: 5.w, ),
                                           child:  Text(
-                                            "COMPLAINT BY",
+                                            "Staff",
                                             style: TextStyle(
                                               color: Colors.grey,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-
-
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 10.h, left: 24.w, ),
-                                          child:  Text(
-                                            "TITLE",
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 10.h, left: 24.w, ),
-                                          child:  Text(
-                                            "TECHNICIAN",
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -304,12 +304,24 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
 
 
                                         Padding(
-                                          padding: EdgeInsets.only(top: 10.h, left: 24.w, ),
+                                          padding: EdgeInsets.only(top: 10.h, left: 5.w, ),
                                           child:  Text(
-                                            "STATUS",
+                                            getSuperVisorComplaintData[i].title.toString(),
                                             style: TextStyle(
                                               color: Colors.grey,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 10.h, left: 5.w, ),
+                                          child:  Text(
+                                            "Technician",
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -317,24 +329,37 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
 
 
                                         Padding(
-                                          padding: EdgeInsets.only(top: 10.h, left: 24.w, ),
+                                          padding: EdgeInsets.only(top: 10.h, left: 5.w, ),
                                           child:  Text(
-                                            "CREATED AT",
+                                            getSuperVisorComplaintData[i].status.toString(),
                                             style: TextStyle(
                                               color: Colors.grey,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+
+
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 10.h, left:5.w, ),
+                                          child:  Text(
+                                            getSuperVisorComplaintData[i].createdAt.toString(),
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
                                         ),
 
                                         Padding(
-                                          padding: EdgeInsets.only(top: 10.h, left: 24.w,bottom: 0.h ),
+                                          padding: EdgeInsets.only(top: 10.h, left: 5.w,bottom: 0.h ),
                                           child:  Text(
-                                            "RESOLVE AT",
+                                            getSuperVisorComplaintData[i].resolveAt.toString(),
                                             style: TextStyle(
                                               color: Colors.grey,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),

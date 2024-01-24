@@ -2,8 +2,12 @@
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:juw/ApiServices/Api.dart';
 import 'package:juw/widgets/CustomAppBar.dart';
 import 'package:juw/widgets/CustomDrawer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -22,6 +26,38 @@ class _Profile  extends State<Profile>{
   final TextEditingController emailController = TextEditingController(text: "ibadkarimi.10@gmail.com");
   final TextEditingController officeNoController = TextEditingController(text: "03425949630");
   final TextEditingController passwordController = TextEditingController(text:"@12123213");
+  String? names="asad";
+  var name,email,password,officeNumber,block,department;
+  int ? userId;
+
+  void initState() {
+
+    // var ownerAbout=getOwnerAbout(currentUserEmail.toString());
+
+    onLoad();
+
+
+    super.initState();
+  }
+
+  onLoad()async{
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name=prefs.getString("name");
+      email=prefs.getString("email");
+      password=prefs.getString("password");
+      block=prefs.getString("block");
+      department=prefs.getString("department");
+      officeNumber=prefs.getString("officeNumber");
+      userId=prefs.getInt("userId");
+
+      print("id is integer is =+++++++++++++++"+userId.toString());
+
+    });
+
+
+  }
 
 
   String _selectedDepartment = "Select Department";
@@ -46,10 +82,12 @@ class _Profile  extends State<Profile>{
 
   ];
 
+  ApiServices apiServices=ApiServices();
+
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+        appBar: CustomAppBar(),
         drawer: CustomDrawer(),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -75,7 +113,7 @@ class _Profile  extends State<Profile>{
                     child: Center(
                       child: Container(
 
-                      //  height: 570.h,
+                        //  height: 570.h,
 
                         color: Colors.white,
                         child: Column(
@@ -129,7 +167,10 @@ class _Profile  extends State<Profile>{
                                   height: 45.h,
 
                                   child: TextFormField(
-                                    controller: nameController,
+                                    controller: TextEditingController(text: name.toString()),
+                                    onChanged: (value){
+                                      name=value;
+                                    },
                                     style: TextStyle(color: Colors.black),
 
                                     decoration: InputDecoration(
@@ -147,7 +188,10 @@ class _Profile  extends State<Profile>{
                                   height: 45.h,
 
                                   child: TextFormField(
-                                    controller: emailController,
+                                    controller: TextEditingController(text: email.toString()),
+                                    onChanged: (value){
+                                      email=value;
+                                    },
                                     style: TextStyle(color: Colors.black),
 
                                     decoration: InputDecoration(
@@ -166,7 +210,10 @@ class _Profile  extends State<Profile>{
                                   height: 45.h,
 
                                   child: TextFormField(
-                                    controller: officeNoController,
+                                    controller: TextEditingController(text: officeNumber.toString()),
+                                    onChanged: (value){
+                                      officeNumber=value;
+                                    },
                                     style: TextStyle(color: Colors.black),
 
                                     decoration: InputDecoration(
@@ -178,67 +225,100 @@ class _Profile  extends State<Profile>{
                                 ),
                               ),
 
-                                    Center(
-                                      child: Container(
-                                          width: 300.w,
+                              Row(
+                                children: [
 
-                                          margin:  EdgeInsets.only(top: 10.h,left:0.w),
-                                          decoration: BoxDecoration(
-                                              border: Border.all(color: Colors.black38, width: 1),
-                                              borderRadius: BorderRadius.circular(5.r),
-                                              boxShadow: <BoxShadow>[]),
-                                          child: DropdownButtonHideUnderline(
-                                              child: DropdownButtonFormField(
-                                                value:_selectedDepartment,
-                                                items: selectedDepartmentList.map((e) {
-                                                  return DropdownMenuItem<String>(
-                                                      child:
-                                                      Padding(
-                                                        padding:  EdgeInsets.only(left:10.0),
-                                                        child: Text(e,style: TextStyle(color: Colors.black),),
-                                                      ), value: e);
-                                                }).toList(),
-                                                onChanged: (newValue) {
-                                                  setState(() {
-                                                    _selectedDepartment = newValue as String;
+                                  Center(
+                                    child: Container(
+                                        width: 150.w,
 
-                                                  });
-                                                },
-                                                isExpanded: true,
-                                              ))),
+                                        margin:  EdgeInsets.only(top: 10.h,left:30.w),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(color: Colors.black38, width: 1),
+                                            borderRadius: BorderRadius.circular(5.r),
+                                            boxShadow: <BoxShadow>[]),
+                                        child: DropdownButtonHideUnderline(
+                                            child: DropdownButtonFormField(
+                                              value:_selectedDepartment,
+                                              items: selectedDepartmentList.map((e) {
+                                                return DropdownMenuItem<String>(
+                                                    child:
+                                                    Padding(
+                                                      padding:  EdgeInsets.only(left:1.0),
+                                                      child: Text(e,style: TextStyle(color: Colors.black,fontSize: 12.sp),),
+                                                    ), value: e);
+                                              }).toList(),
+                                              onChanged: (newValue) {
+                                                setState(() {
+                                                  _selectedDepartment = newValue as String;
+
+                                                });
+                                              },
+                                              isExpanded: true,
+                                            ))),
+                                  ),
+                                  Container(
+                                    width: 140.w,
+                                    height: 50.h,
+                                    margin: EdgeInsets.only(top:8.h,left: 10),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5.r),
+                                        border: Border.all(width: 1,color: Colors.grey)
                                     ),
+                                    child: Center(child: Text(department),),
+                                  ),
+                                  SizedBox(width: 10.w,),
+                                ],
+                              ),
 
-                                   SizedBox(height: 10.h,),
+                              SizedBox(height: 10.h,),
 
-                                    Center(
-                                      child: Container(
-                                          width: 300.w,
+                              Row(
+                                children: [
 
-                                          margin:  EdgeInsets.only(top: 0.h,left:0.w),
-                                          decoration: BoxDecoration(
-                                              border: Border.all(color: Colors.black38, width: 1),
-                                              borderRadius: BorderRadius.circular(5.r),
-                                              boxShadow: <BoxShadow>[]),
-                                          child: DropdownButtonHideUnderline(
-                                              child: DropdownButtonFormField(
-                                                value: _selectedBlock,
-                                                items: selectedBlockList.map((e) {
-                                                  return DropdownMenuItem<String>(
-                                                      child:
-                                                      Padding(
-                                                        padding:  EdgeInsets.only(left:10.w),
-                                                        child: Text(e,style: TextStyle(color: Colors.black,),),
-                                                      ), value: e);
-                                                }).toList(),
-                                                onChanged: (newValue) {
-                                                  setState(() {
-                                                    _selectedBlock = newValue as String;
+                                  Center(
+                                    child: Container(
+                                        width: 150.w,
 
-                                                  });
-                                                },
-                                                isExpanded: true,
-                                              ))),
+                                        margin:  EdgeInsets.only(top: 0.h,left:30.w),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(color: Colors.black38, width: 1),
+                                            borderRadius: BorderRadius.circular(5.r),
+                                            boxShadow: <BoxShadow>[]),
+                                        child: DropdownButtonHideUnderline(
+                                            child: DropdownButtonFormField(
+                                              value: _selectedBlock,
+                                              items: selectedBlockList.map((e) {
+                                                return DropdownMenuItem<String>(
+                                                    child:
+                                                    Padding(
+                                                      padding:  EdgeInsets.only(left:2.w),
+                                                      child: Text(e,style: TextStyle(color: Colors.black,fontSize: 10.sp),),
+                                                    ), value: e);
+                                              }).toList(),
+                                              onChanged: (newValue) {
+                                                setState(() {
+                                                  _selectedBlock = newValue as String;
+
+                                                });
+                                              },
+                                              isExpanded: true,
+                                            ))),
+                                  ),
+                                  Container(
+                                    width: 140.w,
+                                    height: 50.h,
+                                    margin: EdgeInsets.only(top:0.h,left: 10),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5.r),
+                                        border: Border.all(width: 1,color: Colors.grey)
                                     ),
+                                    child: Center(child: Text(block),),
+
+                                  ),
+                                  SizedBox(width: 10.w,),
+                                ],
+                              ),
 
 
                               SizedBox(height: 10.h,),
@@ -249,7 +329,10 @@ class _Profile  extends State<Profile>{
                                     child: TextFormField(
                                       style: TextStyle(color: Colors.black),
 
-                                      controller: passwordController,
+                                      controller: TextEditingController(text: password.toString()),
+                                      onChanged: (value){
+                                        password=value;
+                                      },
                                       decoration: InputDecoration(label: Text("Password") ,
 
                                         border: OutlineInputBorder(),
@@ -273,7 +356,19 @@ class _Profile  extends State<Profile>{
                                         width: 250.w,
                                         height: 45.h,
                                         child:ElevatedButton(
-                                            onPressed:(){},
+                                            onPressed:()async{
+
+                                              String res=await apiServices.updateProfile(userId, password, _selectedDepartment, _selectedBlock, officeNumber);
+
+
+                                                Navigator.push(context, MaterialPageRoute(builder: (context){return Profile();
+                                                }));
+
+
+
+
+
+                                            },
 
 
 

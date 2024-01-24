@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:juw/ApiServices/Api.dart';
 import 'package:juw/Views/Staff/DashBoard.dart';
 import 'package:juw/Views/Supervisor/SupervisorDashBoard.dart';
 import 'package:juw/Views/authentication/SignUp.dart';
@@ -227,13 +228,19 @@ class _LoginFormWidget  extends State<LoginFormWidget >{
                                         width: 300.w,
                                         height: 45.h,
                                         child:ElevatedButton(
-                                            onPressed:(){
+                                            onPressed:()async{
                                               if(_formKey.currentState!.validate()){
+                                                ApiServices apiService=ApiServices();
 
-                                                if(emailController.text=="supervisor@gmail.com" && passwordController.text=="test#123"){
+                                                await apiService.loginUser(emailController.text, passwordController.text);
+
+
+                                             /*   if(emailController.text=="supervisor@gmail.com" && passwordController.text=="test#123"){
                                                   Get.to(()=>SupervisorDashBoard());
 
-                                                }
+                                                }*/
+
+
 
 
                                               }

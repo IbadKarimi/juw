@@ -13,6 +13,7 @@ import '../../widgets/CustomDrawer.dart';
 
 
 class StaffDashBoard extends StatefulWidget{
+
   @override
   State<StaffDashBoard > createState() => _StaffDashBoard ();
 }
@@ -56,7 +57,9 @@ class _StaffDashBoard  extends State<StaffDashBoard >{
 
                       color: Colors.white,
 
-                      child: Column(
+                      child:
+
+                      Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -76,11 +79,13 @@ class _StaffDashBoard  extends State<StaffDashBoard >{
 
                           //-------------------
 
-                          Row(
+                          Row( // main -----row
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(children: [
+                              SizedBox(width:10.w),
+                              //----first box
+                              Column(children: [
                                 Container(
                                   width: 60.w,
                                   height: 60.h,
@@ -94,14 +99,14 @@ class _StaffDashBoard  extends State<StaffDashBoard >{
                                 ),
                                 Column(
 
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
 
                                   children: [
 
 
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.h, left: 0.w, bottom:5.h),
+                                      padding: EdgeInsets.only(top: 5.h, left: 0.w, bottom:5.h),
                                       child:  Center(
                                         child: Text(
                                           "Total",
@@ -115,29 +120,29 @@ class _StaffDashBoard  extends State<StaffDashBoard >{
                                     ),
 
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.h, left: 5.w, bottom: 0.h),
-                                      child:  Center(
-                                        child: Text(
-                                          "0",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 28.sp,
-                                            fontWeight: FontWeight.w500,
-                                          ),
+                                      padding: EdgeInsets.only(top: 0.h, left: 0.w, bottom: 0.h),
+                                      child:  Text(
+                                        "10",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 28.sp,
+                                          fontWeight: FontWeight.w500,
                                         ),
                                       ),
                                     ),
 
 
                                   ],)
+
                               ],),
+                              SizedBox(width:10.w),
 
                               //----2nd box eng here
-                              Row(children: [
+                              Column(children: [
                                 Container(
                                   width: 60.w,
                                   height: 60.h,
-                                  margin: EdgeInsets.only(left:5.w,top:5.h),
+                                  margin: EdgeInsets.only(left:15.w,top:5.h),
 
                                   decoration: BoxDecoration(
                                       color:Colors.green,
@@ -147,14 +152,14 @@ class _StaffDashBoard  extends State<StaffDashBoard >{
                                 ),
                                 Column(
 
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
 
                                   children: [
 
 
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.h, left: 0.w, bottom:5.h),
+                                      padding: EdgeInsets.only(top: 5.h, left: 15.w, bottom:5.h),
                                       child:  Center(
                                         child: Text(
                                           "Completed",
@@ -171,7 +176,7 @@ class _StaffDashBoard  extends State<StaffDashBoard >{
                                       padding: EdgeInsets.only(top: 0.h, left: 5.w, bottom: 0.h),
                                       child:  Center(
                                         child: Text(
-                                          "0",
+                                          "10",
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 28.sp,
@@ -185,13 +190,14 @@ class _StaffDashBoard  extends State<StaffDashBoard >{
                                   ],)
 
                               ],),
+                              SizedBox(width:10.w),
 
                               //----3nd box eng here
-                              Row(children: [
+                              Column(children: [
                                 Container(
                                   width: 60.w,
                                   height: 60.h,
-                                  margin: EdgeInsets.only(left:5.w,top:5.h),
+                                  margin: EdgeInsets.only(left:15.w,top:5.h),
 
                                   decoration: BoxDecoration(
                                       color:Colors.orange,
@@ -201,14 +207,13 @@ class _StaffDashBoard  extends State<StaffDashBoard >{
                                 ),
                                 Column(
 
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
 
 
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.h, left: 2.w, bottom:5.h),
+                                      padding: EdgeInsets.only(top: 5.h, left: 15.w, bottom:5.h),
                                       child:  Center(
                                         child: Text(
                                           "Pending",
@@ -222,15 +227,13 @@ class _StaffDashBoard  extends State<StaffDashBoard >{
                                     ),
 
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.h, left: 5.w, bottom: 0.h),
-                                      child:  Center(
-                                        child: Text(
-                                          "0",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 28.sp,
-                                            fontWeight: FontWeight.w500,
-                                          ),
+                                      padding: EdgeInsets.only(top: 0.h, left: 15.w, bottom: 0.h),
+                                      child:  Text(
+                                        "10",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 28.sp,
+                                          fontWeight: FontWeight.w500,
                                         ),
                                       ),
                                     ),
@@ -242,11 +245,14 @@ class _StaffDashBoard  extends State<StaffDashBoard >{
 
                               ],),
 
-                              Row(children: [
+
+                              //4th box
+
+                              Column(children: [
                                 Container(
                                   width: 60.w,
                                   height: 60.h,
-                                  margin: EdgeInsets.only(left:5.w,top:5.h),
+                                  margin: EdgeInsets.only(left:15.w,top:5.h),
 
                                   decoration: BoxDecoration(
                                       color:Colors.lightBlueAccent,
@@ -263,10 +269,10 @@ class _StaffDashBoard  extends State<StaffDashBoard >{
 
 
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.h, left: 0.w, bottom:5.h),
+                                      padding: EdgeInsets.only(top: 5.h, left: 15.w, bottom:0.h),
                                       child:  Center(
                                         child: Text(
-                                          "Inprogress",
+                                          "In progress",
                                           style: TextStyle(
                                             color: Colors.grey,
                                             fontSize: 8.sp,
@@ -277,10 +283,10 @@ class _StaffDashBoard  extends State<StaffDashBoard >{
                                     ),
 
                                     Padding(
-                                      padding: EdgeInsets.only(top: 0.h, left: 5.w, bottom: 0.h),
+                                      padding: EdgeInsets.only(top: 5.h, left: 15.w, bottom: 0.h),
                                       child:  Center(
                                         child: Text(
-                                          "0",
+                                          "10",
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 28.sp,
@@ -305,7 +311,7 @@ class _StaffDashBoard  extends State<StaffDashBoard >{
 
                           //-------------4th
 
-                         SizedBox(height: 10.h,)
+                          SizedBox(height: 10.h,)
 
 
                         ],),

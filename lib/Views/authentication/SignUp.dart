@@ -305,7 +305,7 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
                                         child:ElevatedButton(
                                             onPressed:()async{
 
-                                              String response=await apiServices.userSignUp(nameController.text, emailController.text, passwordController.text, "technician", _selectedDepartment, _selectedBlock, officeNoController.text);
+                                              String response=await apiServices.userSignUp(nameController.text, emailController.text, passwordController.text, "staff", _selectedDepartment, _selectedBlock, officeNoController.text);
                                               if(response=="200"){
                                                 Get.to(()=>StaffDashBoard());
                                               }

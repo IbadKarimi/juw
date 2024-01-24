@@ -15,6 +15,8 @@ import 'package:juw/Views/Supervisor/SupervisorDashBoard.dart';
 import 'package:juw/Views/Technician/TechnicianComplaint.dart';
 import 'package:juw/Views/Technician/TechnicianDashBoard.dart';
 import 'package:juw/Views/Technician/TechnicianDescription.dart';
+import 'package:juw/Views/authentication/Login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Views/Staff/Profile.dart';
 
@@ -42,21 +44,27 @@ class _CustomTechnicianDrawerState extends State<CustomTechnicianDrawer> {
 
   String? userEmail;
   var user;
-
-
-
-
-
-
+  String? userName;
 
   void initState() {
 
     // var ownerAbout=getOwnerAbout(currentUserEmail.toString());
 
-
+    onLoad();
 
 
     super.initState();
+  }
+
+  onLoad()async{
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userName=prefs.getString("name");
+      userEmail=prefs.getString("email");
+    });
+
+
   }
 
 
@@ -76,21 +84,31 @@ class _CustomTechnicianDrawerState extends State<CustomTechnicianDrawer> {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(child:    Center(
-            child: Container(
-              width: 100.w,
-              height: 100.h,
-              margin: EdgeInsets.only(right: 15.w),
+            child:
+            Column(
+              children: [
+                Center(
+                  child: Container(
+                    width: 80.w,
+                    height: 80.h,
+                    margin: EdgeInsets.only(right: 15.w),
 
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("lib/images/avatars/avatar-1.png"),
-                      fit: BoxFit.cover
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage("lib/images/avatars/avatar-1.png"),
+                            fit: BoxFit.cover
+                        ),
+
+                        borderRadius: BorderRadius.circular(100.r)
+
+                    ),
+
                   ),
+                ),
+                Text(userName.toString()),
+                Text(userEmail.toString(),style: TextStyle(fontWeight: FontWeight.w600),)
 
-                  borderRadius: BorderRadius.circular(100.r)
-
-              ),
-
+              ],
             ),
           ),),
 
@@ -165,10 +183,12 @@ class _CustomTechnicianDrawerState extends State<CustomTechnicianDrawer> {
           ListTile(
             leading: Icon(Icons.login_rounded),
             title: GestureDetector(onTap:(){
+              Get.offAll(()=>LoginFormWidget());
 
             },
                 child: const Text('LogOut',style: TextStyle(color: Colors.black),)),
             onTap: () {
+              Get.offAll(()=>LoginFormWidget());
               // Update the state of the app.
               // ...
             },
