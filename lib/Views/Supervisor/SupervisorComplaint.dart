@@ -7,7 +7,9 @@ import 'package:juw/widgets/CustomAppBar.dart';
 import 'package:juw/widgets/CustomSupervisorDrawer.dart';
 import 'dart:io';
 
+import '../../Models/CategoriesModel.dart';
 import '../../Models/SupervisorModel.dart';
+import '../../Models/UserModel.dart';
 
 
 
@@ -74,9 +76,23 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
   ];
   ApiServices apiService=ApiServices();
   List<SupervisorModel> getSuperVisorComplaintData=[];
+  List<CategoriesModel> getCategoryData=[];
+  List<CategoriesModel> getSubCategoryData=[];
+  List<UserModel> getTechnicianData=[];
+  String?categoryName;
+  String?subCategoryName;
 
 
   void initState(){
+    apiService.getTechnician().then((value){
+      setState(() {
+        getTechnicianData.addAll(value);
+      });
+
+      for(int i=0;i<getTechnicianData.length;i++){
+        print("name is ==========="+getTechnicianData[i].name.toString());
+      }
+    });
 
     apiService.getSupervisorComplaint().then((value){
       setState(() {
@@ -87,11 +103,31 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
         print("name is ==========="+getSuperVisorComplaintData[i].status.toString());
       }
     });
+    apiService.getCategory().then((value){
+      setState(() {
+        getCategoryData.addAll(value);
+      });
+
+      for(int i=0;i<getCategoryData.length;i++){
+        print("name is ==========="+getCategoryData[i].categoryName.toString());
+      }
+    });
+
+    apiService.getSubCategory().then((value){
+      setState(() {
+        getSubCategoryData.addAll(value);
+      });
+
+      for(int i=0;i<getSubCategoryData.length;i++){
+        print("name is ==========="+getSubCategoryData[i].subCategoryName.toString());
+      }
+    });
 
 
     super.initState();
   }
-
+  int ? selectedUserId;
+  int ? complaintId;
 
 
   Widget build(BuildContext context) {
@@ -370,6 +406,28 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                           SizedBox(width: 10.w,),
                                           //--Icons eyee
                                           IconButton(onPressed: (){
+                                            print("CategoryId"+ getSuperVisorComplaintData[i].categoryId.toString());
+                                            print("Sub CategoryId"+ getSuperVisorComplaintData[i].subCategoryId.toString());
+                                            for(int index=0;index<getCategoryData.length;index++){
+                                              if(getCategoryData[index].categoryId== getSuperVisorComplaintData[i].categoryId){
+                                                setState(() {
+                                                  categoryName=getCategoryData[index].categoryName.toString();
+                                                  print("Category Name is "+categoryName.toString());
+
+                                                });
+
+                                              }
+
+                                            }
+                                            for(int index=0;index<getSubCategoryData.length;index++){
+                                              if(getSubCategoryData[index].subCategoryId== getSuperVisorComplaintData[i].subCategoryId){
+                                                setState(() {
+                                                  subCategoryName=getSubCategoryData[index].subCategoryName.toString();
+                                                  print("Sub Category Name is "+subCategoryName.toString());
+                                                });
+
+
+                                              }}
                                             showDialog(context: context, builder: (context){
                                               return
                                                 AlertDialog(
@@ -394,7 +452,7 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                                         child: Padding(
                                                           padding: EdgeInsets.only(left: 0, top: 20),
                                                           child: Text(
-                                                            "elec",
+                                                            getSuperVisorComplaintData[i].title.toString(),
                                                             style: TextStyle(
                                                               color: Colors.black,
                                                               fontSize: 18,
@@ -411,7 +469,7 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                                       Padding(
                                                         padding: EdgeInsets.only(left: 0, top: 10),
                                                         child: Text(
-                                                          "CCTV Camera",
+                                                          categoryName.toString(),
                                                           style: TextStyle(
                                                             color: Colors.black,
                                                             fontSize: 18,
@@ -427,7 +485,7 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                                       Padding(
                                                         padding: EdgeInsets.only(left: 0, top: 10),
                                                         child: Text(
-                                                          "CCTV repair install and trouble shooting",
+                                                          subCategoryName.toString(),
                                                           style: TextStyle(
                                                             color: Colors.black38,
                                                             fontSize: 14,
@@ -452,7 +510,7 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                                       Padding(
                                                         padding: EdgeInsets.only(left: 0, top: 10),
                                                         child: Text(
-                                                          "xyz",
+                                                          getSuperVisorComplaintData[i].description.toString(),
                                                           style: TextStyle(
                                                             color: Colors.black38,
                                                             fontSize: 14,
@@ -514,8 +572,17 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
 
 
                                           IconButton(onPressed: (){
+                                            setState(() {
+                                              complaintId=getSuperVisorComplaintData[i].complaintId;
+                                              print("Complaint Id is "+complaintId.toString());
+                                            });
+
                                             showDialog(context: context, builder: (context){
                                               return
+                                              StatefulBuilder(
+                                                  builder: (context, setState) {
+
+                                                    return
                                                 AlertDialog(
 
                                                 shape:  RoundedRectangleBorder(
@@ -548,39 +615,49 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                                         ),
                                                       ),
                                                       Divider(),
+
+
                                                       //---------------CALEMDER------------//
-                                                      GestureDetector(
-                                                        onTap: (){
-                                                          _pickDate();
-                                                        },
-                                                        child: Container(
-                                                            width: 300.w,
-                                                            height: 50.h,
 
-                                                            margin: EdgeInsets.only(top:0.h,left:0.w),
-                                                            decoration: BoxDecoration(
-                                                              borderRadius: BorderRadius.circular(5.r),
-                                                              border: Border.all(color: Colors.grey, width: 1),
-
-
-                                                            ),
-                                                            child: Row(
-                                                              children: [
-                                                                Padding(
-                                                                  padding:  EdgeInsets.only(left:5.w),
-                                                                  child: Icon(Icons.calendar_month),
-                                                                ),
-                                                                Padding(
-                                                                  padding:  EdgeInsets.only(left:5.w), child:Text( selectedDateTime.toString(),style: TextStyle(color: Colors.black,),),)
-                                                              ],
-                                                            )
-
-                                                        ),
-                                                      ),
 
                                                       SizedBox(height: 10.w,),
-
+                                                  Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: <Widget>[
                                                       Container(
+                                                        width: 300.w,
+
+                                                        margin:  EdgeInsets.only(top: 10.h,left:0.w),
+                                                        decoration: BoxDecoration(
+                                                            border: Border.all(color: Colors.black38, width: 1),
+                                                            borderRadius: BorderRadius.circular(5.r),
+                                                            boxShadow: <BoxShadow>[]),
+                                                        child: DropdownButtonHideUnderline(
+                                                            child:DropdownButton<int>(
+                                                        value: selectedUserId,
+                                                        onChanged: (userId) {
+                                                          setState(() {
+                                                            selectedUserId = userId;
+                                                            // Perform any actions you need with the selected userId
+                                                            print("Selected UserId: $selectedUserId");
+                                                          });
+                                                        },
+                                                        items: getTechnicianData.map((UserModel users) {
+                                                          return DropdownMenuItem<int>(
+                                                            value: users.id,
+                                                            child: Text(users.name.toString()),
+                                                          );
+                                                        }).toList(),
+                                                      ))),
+                                                      SizedBox(height: 20),
+                                                      // You can display additional information about the selected user here
+                                                      selectedUserId != null
+                                                          ? Text("Selected UserId: $selectedUserId")
+                                                          : Text("Select a user"),
+                                                    ],
+                                                  )
+
+                                                     /* Container(
                                                           width: 300.w,
 
                                                           margin:  EdgeInsets.only(top: 10.h,left:0.w),
@@ -591,22 +668,26 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                                           child: DropdownButtonHideUnderline(
                                                               child: DropdownButtonFormField(
                                                                 value:_selectedDepartment,
-                                                                items: selectedDepartmentList.map((e) {
+                                                                items: getTechnicianData.map((e) {
                                                                   return DropdownMenuItem<String>(
                                                                       child:
                                                                       Padding(
                                                                         padding:  EdgeInsets.only(left:2.0),
-                                                                        child: Text(e,style: TextStyle(color: Colors.black),),
-                                                                      ), value: e);
+                                                                        child: Text(e.toString(),style: TextStyle(color: Colors.black),),
+                                                                      ), value: e.toString());
                                                                 }).toList(),
                                                                 onChanged: (newValue) {
-                                                                  setState(() {
-                                                                    _selectedDepartment = newValue as String;
 
-                                                                  });
+
+
+                                                                    setState((){
+                                                                      _selectedDepartment = newValue as String;
+                                                                    });
+
+
                                                                 },
                                                                 isExpanded: true,
-                                                              ))),
+                                                              ))),*/
 
 
 
@@ -619,7 +700,7 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
 
 
 
-                                                      SizedBox(height: 20.h,),
+                                                      ,SizedBox(height: 20.h,),
 
                                                       Divider(),
 
@@ -628,7 +709,7 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
 
 
                                                       Padding(
-                                                        padding:  EdgeInsets.only(left:140.w,top: 10.h),
+                                                        padding:  EdgeInsets.only(left:110.w,top: 10.h),
                                                         child: Row(children: [
 
                                                           GestureDetector(
@@ -654,9 +735,14 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
 
                                                           SizedBox(width: 10.w,),
                                                           GestureDetector(
-                                                            onTap:(){
+                                                            onTap:()async{
 
-                                                              Navigator.pop(context);
+                                                             var response=await apiService.assignTechnician(selectedUserId, complaintId!);
+                                                             if(response=="200"){
+                                                               Navigator.push(context, MaterialPageRoute(builder:(context){
+                                                                 return SupervisorComplaint();
+                                                               }));
+                                                             }
 
                                                             },
 
@@ -685,8 +771,9 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                                     ],
                                                   ),
                                                 ),
+
                                               );
-                                            });
+    }); });
 
                                           }, icon: Icon(Icons.person,color: Colors.green,size: 20.sp,)),
 
@@ -716,8 +803,8 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                               padding: EdgeInsets.only(left: 0, top: 20),
                                               child: Text(
                                               "Request Extended Date",
-    style: TextStyle(
-    color: Colors.black,
+                                style: TextStyle(
+                                color: Colors.black,
     fontSize: 18,
     fontWeight: FontWeight.w600,
     ),
@@ -791,7 +878,7 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
     ),
     ),
 
-    SizedBox(width: 185.w,),
+    SizedBox(width: 80.w,),
       GestureDetector(
         onTap:(){
 
@@ -857,7 +944,16 @@ class _SupervisorComplaint   extends State< SupervisorComplaint >{
                                         ],),
 
 
-                                        IconButton(onPressed: (){
+                                        IconButton(onPressed: ()async{
+                                          String? response= await apiService.deleteComplaint(getSuperVisorComplaintData[i].complaintId!);
+                                          if(response=="200"){
+                                            setState(() {
+                                              Navigator.push(context, MaterialPageRoute(builder: (context){
+                                                return SupervisorComplaint();
+                                              }));
+                                            });
+
+                                          }
 
 
 

@@ -7,8 +7,11 @@ class SupervisorModel{
   String? status;
   String? createdAt;
   String? resolveAt;
+  int? categoryId;
+  int? subCategoryId;
+  String? description;
 
-  SupervisorModel({this.complaintId,this.complaintBy,this.title,this.status, this.createdAt,this.resolveAt});
+  SupervisorModel({this.description,this.complaintId,this.complaintBy,this.title,this.status, this.createdAt,this.resolveAt});
 
   SupervisorModel.fromJson(Map<String, dynamic> json) {
     complaintId = json['complaint_id'];
@@ -17,6 +20,9 @@ class SupervisorModel{
     status = json['status'];
     createdAt = json['created_at'];
     resolveAt=json['resolved_at'];
+    categoryId=json['category_id'];
+    subCategoryId=json['sub_categoryId'];
+    description=json['description'];
   }
 
 

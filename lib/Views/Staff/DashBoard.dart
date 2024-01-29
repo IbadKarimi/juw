@@ -3,10 +3,12 @@
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:juw/ApiServices/Api.dart';
 import 'package:juw/widgets/CustomAppBar.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
+import '../../Models/UserModel.dart';
 import '../../widgets/Constatant.dart';
 import '../../widgets/CustomDrawer.dart';
 
@@ -26,6 +28,32 @@ class _StaffDashBoard  extends State<StaffDashBoard >{
   final _formKey=GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  List<UserModel> getComplaintData=[];
+  List<Color> bar=[
+    Colors.deepPurpleAccent,
+    Colors.green,
+  ];
+  ApiServices apiService=ApiServices();
+  void initState(){
+
+
+    apiService.getComplain().then((value){
+      setState(() {
+        getComplaintData.addAll(value);
+      });
+
+      for(int i=0;i<getComplaintData.length;i++){
+        print("name is ==========="+getComplaintData[i].status.toString());
+      }
+    });
+
+
+
+
+
+
+    super.initState();
+  }
 
   List<_SalesData> data = [
     _SalesData('Jan', 95),
@@ -341,8 +369,9 @@ class _StaffDashBoard  extends State<StaffDashBoard >{
                                 // Enable data label
                                 dataLabelSettings: DataLabelSettings(isVisible: true),
 
+
                             // Set different colors for each bar
-                           /// pointColorMapper: (_SalesData sales, _) => sales.barColor,)
+
                             )]),
                     ),
                     Expanded(

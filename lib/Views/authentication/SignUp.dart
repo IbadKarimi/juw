@@ -33,9 +33,9 @@ class _SignUpFormWidget  extends State<SignUpFormWidget>{
   final selectedDepartmentList = [
 
     "Select Department",
-    "Computer Science",
-    'Management',
-    'IT',
+    "Computer Science Department",
+    'Management Department',
+    'Arts Department',
 
 
 

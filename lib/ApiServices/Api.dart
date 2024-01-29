@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
@@ -11,11 +12,12 @@ import 'package:juw/Views/Staff/Profile.dart';
 import 'package:juw/Views/Supervisor/SupervisorDashBoard.dart';
 import 'package:juw/Views/Technician/TechnicianDashBoard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../Models/CategoriesModel.dart';
 import '../Views/Staff/Complaint.dart';
 import '../Views/Staff/DashBoard.dart';
 import '../Views/Staff/HeadToMain.dart';
 
-String url="192.168.1.5:8080";
+String url="localhost";
 
 class ApiServices {
 
@@ -96,6 +98,94 @@ class ApiServices {
         if(res.statusCode==200){
 
         }
+
+
+
+
+
+
+
+    }catch(e){
+      print("APi Error:"+e.toString());
+    }
+
+    return "200";
+  }
+
+  Future<String> assignTechnician(int? userId,int complaintId)async{
+    try{
+      String uri="http://"+url+"/api/supervisor/assign_technician";
+
+
+      final res = await http.post(
+          Uri.parse(uri),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, dynamic>{
+
+
+
+            "user_id":userId,
+            "complaint_id":complaintId,
+
+
+
+          }));
+
+
+
+
+
+      if(res.statusCode==200){
+        print("Assigned Tecnician Sucessfully");
+        return "200";
+
+      }
+
+
+
+
+
+
+
+    }catch(e){
+      print("APi Error:"+e.toString());
+    }
+
+    return "200";
+  }
+
+  Future<String> technicianRequestDateChange(DateTime requestedData,int complaintId)async{
+    try{
+      String uri="http://"+url+"/api/technician/complaints/request_date_change";
+
+      String formattedTimestamp = requestedData.toUtc().toIso8601String();
+      final res = await http.post(
+          Uri.parse(uri),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, dynamic>{
+
+
+
+            "date":formattedTimestamp,
+            "complaint_id":complaintId,
+
+
+
+          }));
+
+
+
+
+
+      if(res.statusCode==200){
+        print("Add Dead Line Sucessfully");
+        return "200";
+
+      }
 
 
 
@@ -224,10 +314,12 @@ class ApiServices {
           // Access additional data based on user type
           if (responseBody['data']['user_type'] == 'technician') {
 
+
             final SharedPreferences prefs = await SharedPreferences.getInstance();
 
             prefs.setString("name", responseBody['data']['name'].toString());
             prefs.setString("email", responseBody['data']['email'].toString());
+            prefs.setInt("userId", responseBody['data']['user_id']);
 
 
 
@@ -289,7 +381,51 @@ class ApiServices {
       print('Error: $error');
     }
   }
+  Future<List<CategoriesModel>> getCategory() async {
+    //create function in list type becoze we get data and set in _product array
 
+    String uri="http://"+url+"/api/categories";
+    var response = await http.get(
+        Uri.parse(uri));
+
+    List<CategoriesModel> userData = []; //the scope of the array is Inside the function
+    if (response.statusCode == 200) {
+      debugPrint("Api is Working !");
+      var prJson = json.decode(response.body);
+      //Mistake Identify Here
+
+      for (var jsonData in prJson) {
+        userData.add(
+            CategoriesModel.fromJson(jsonData)); //set json data in productlist
+      }
+    } else {
+      debugPrint("Api is not Working of About !");
+    }
+    return userData;
+  }
+
+  Future<List<CategoriesModel>> getSubCategory() async {
+    //create function in list type becoze we get data and set in _product array
+
+    String uri="http://"+url+"/api/subCategories";
+    var response = await http.get(
+        Uri.parse(uri));
+
+    List<CategoriesModel> userData = []; //the scope of the array is Inside the function
+    if (response.statusCode == 200) {
+      debugPrint("Api is Working !");
+      var prJson = json.decode(response.body);
+      //Mistake Identify Here
+
+      for (var jsonData in prJson) {
+        userData.add(
+            CategoriesModel.fromJson(jsonData)); //set json data in productlist
+      }
+    } else {
+      debugPrint("Api is not Working of About !");
+    }
+    return userData;
+  }
   Future<List<UserModel>> getTechnician() async {
     //create function in list type becoze we get data and set in _product array
 

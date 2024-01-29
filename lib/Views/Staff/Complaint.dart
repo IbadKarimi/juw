@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:juw/ApiServices/Api.dart';
+import 'package:juw/Models/CategoriesModel.dart';
 import 'package:juw/widgets/CustomAppBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -96,6 +97,11 @@ class _Complaint   extends State< Complaint >{
   ];
 
   List<UserModel> getComplaintData=[];
+  List<CategoriesModel> getCategoryData=[];
+  List<CategoriesModel> getSubCategoryData=[];
+  String?categoryName;
+  String?subCategoryName;
+
   int? userId;
 
 
@@ -110,6 +116,26 @@ class _Complaint   extends State< Complaint >{
         print("name is ==========="+getComplaintData[i].status.toString());
       }
     });
+
+   apiService.getCategory().then((value){
+     setState(() {
+       getCategoryData.addAll(value);
+     });
+
+     for(int i=0;i<getCategoryData.length;i++){
+       print("name is ==========="+getCategoryData[i].categoryName.toString());
+     }
+   });
+
+   apiService.getSubCategory().then((value){
+     setState(() {
+       getSubCategoryData.addAll(value);
+     });
+
+     for(int i=0;i<getSubCategoryData.length;i++){
+       print("name is ==========="+getSubCategoryData[i].subCategoryName.toString());
+     }
+   });
 
 
     super.initState();
@@ -764,7 +790,171 @@ class _Complaint   extends State< Complaint >{
 
                                           Row(children: [
                                             SizedBox(width: 10.w,),
-                                            IconButton(onPressed: (){}, icon: Icon(Icons.remove_red_eye,color: Colors.amber,)),
+                                            IconButton(onPressed: (){
+                                              print("CategoryId"+getComplaintData[i].categoryId.toString());
+                                              print("Sub CategoryId"+getComplaintData[i].subCategoryId.toString());
+                                              for(int index=0;index<getCategoryData.length;index++){
+                                                if(getCategoryData[index].categoryId==getComplaintData[i].categoryId){
+                                                  setState(() {
+                                                    categoryName=getCategoryData[index].categoryName.toString();
+                                                    print("Category Name is "+categoryName.toString());
+
+                                                  });
+
+                                                }
+
+                                              }
+                                        for(int index=0;index<getSubCategoryData.length;index++){
+                                           if(getSubCategoryData[index].subCategoryId==getComplaintData[i].subCategoryId){
+                                             setState(() {
+                                               subCategoryName=getSubCategoryData[index].subCategoryName.toString();
+                                               print("Sub Category Name is "+subCategoryName.toString());
+                                             });
+
+
+                                                  }}
+
+
+                                              showDialog(context: context, builder: (context){
+                                                return
+                                                  AlertDialog(
+
+                                                    shape:  RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                                    ),
+                                                    content: Container(
+                                                      width: 350.w,
+                                                      height: 330.h,
+
+
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+
+                                                        children: <Widget>[
+
+                                                          Container(
+                                                            width: 300.w,
+                                                            height: 60.h,
+
+                                                            child: Padding(
+                                                              padding: EdgeInsets.only(left: 0, top: 20),
+                                                              child: Text(
+                                                                  getComplaintData[i].title.toString(),
+                                                                style: TextStyle(
+                                                                  color: Colors.black,
+                                                                  fontSize: 18,
+                                                                  fontWeight: FontWeight.w600,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Divider(),
+                                                          //---------------TextFields------------//
+
+                                                          SizedBox(height: 10.w,),
+
+                                                          Padding(
+                                                            padding: EdgeInsets.only(left: 0, top: 10),
+                                                            child: Text(
+                                                              categoryName.toString(),
+                                                              style: TextStyle(
+                                                                color: Colors.black,
+                                                                fontSize: 18,
+                                                                fontWeight: FontWeight.w600,
+                                                              ),
+                                                            ),
+                                                          ),
+
+
+
+
+                                                          SizedBox(height: 10.h,),
+                                                          Padding(
+                                                            padding: EdgeInsets.only(left: 0, top: 10),
+                                                            child: Text(
+                                                              subCategoryName.toString(),
+                                                              style: TextStyle(
+                                                                color: Colors.black38,
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w600,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding: EdgeInsets.only(left: 0, top: 10),
+                                                            child: Text(
+                                                              "Description",
+                                                              style: TextStyle(
+                                                                color: Colors.black,
+                                                                fontSize: 18.sp,
+                                                                fontWeight: FontWeight.w700,
+                                                              ),
+                                                            ),
+                                                          ),
+
+
+
+                                                          Padding(
+                                                            padding: EdgeInsets.only(left: 0, top: 10),
+                                                            child: Text(
+                                                              getComplaintData[i].description.toString(),
+                                                              style: TextStyle(
+                                                                color: Colors.black38,
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w600,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 20.h,),
+
+                                                          Divider(),
+
+
+
+
+
+                                                          Padding(
+                                                            padding:  EdgeInsets.only(left:0.w,top: 10.h),
+                                                            child: Row(children: [
+
+                                                              GestureDetector(
+                                                                onTap:(){
+
+                                                                  Navigator.pop(context);
+
+                                                                },
+
+
+                                                                child: Padding(
+                                                                  padding: EdgeInsets.only(left: 0, top: 10),
+                                                                  child: Text(
+                                                                    "Close",
+                                                                    style: TextStyle(
+                                                                      color: Colors.amberAccent,
+                                                                      fontSize: 18,
+                                                                      fontWeight: FontWeight.w600,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+
+                                                              SizedBox(width: 10.w,),
+
+
+
+
+                                                            ],),
+                                                          )
+
+
+                                                          // Add your other widgets here
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                              });
+                                            }, icon: Icon(Icons.remove_red_eye,color: Colors.amber,)),
                                             IconButton(onPressed: ()async{
                                               String? response= await apiService.deleteComplaint(getComplaintData[i].complaintId!);
                                               if(response=="200"){

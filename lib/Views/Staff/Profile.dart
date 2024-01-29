@@ -64,9 +64,9 @@ class _Profile  extends State<Profile>{
   final selectedDepartmentList = [
 
     "Select Department",
-    "Computer Science",
-    'Staff',
-    'Student',
+    "Computer Science Department",
+    'Management Department',
+    'Arts Department',
 
 
 
@@ -76,7 +76,7 @@ class _Profile  extends State<Profile>{
   String _selectedBlock = "Select Block";
   final selectedBlockList = [
     "Select Block",
-    "A","B","C"
+    "A","B","C","D","F","G"
 
 
 
@@ -102,7 +102,7 @@ class _Profile  extends State<Profile>{
 
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
+
                 color: Colors.grey.shade100,
                 child: Form(
 
@@ -232,7 +232,7 @@ class _Profile  extends State<Profile>{
                                     child: Container(
                                         width: 150.w,
 
-                                        margin:  EdgeInsets.only(top: 10.h,left:30.w),
+                                        margin:  EdgeInsets.only(top: 10.h,left:55.w),
                                         decoration: BoxDecoration(
                                             border: Border.all(color: Colors.black38, width: 1),
                                             borderRadius: BorderRadius.circular(5.r),
@@ -280,7 +280,7 @@ class _Profile  extends State<Profile>{
                                     child: Container(
                                         width: 150.w,
 
-                                        margin:  EdgeInsets.only(top: 0.h,left:30.w),
+                                        margin:  EdgeInsets.only(top: 0.h,left:55.w),
                                         decoration: BoxDecoration(
                                             border: Border.all(color: Colors.black38, width: 1),
                                             borderRadius: BorderRadius.circular(5.r),

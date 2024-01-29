@@ -127,137 +127,103 @@ void initState(){
                                                 shape:  RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                                                 ),
-                                                content: Container(
-                                                  width: 350.w,
-                                                  height: 330.h,
+                                                content: SingleChildScrollView(
+                                                  scrollDirection: Axis.vertical,
+                                                  child: Container(
+                                                    width: 350.w,
+                                                    height: 330.h,
 
-                                                  child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
 
-                                                    children: <Widget>[
-                                                      Container(
-                                                        width: 300.w,
-                                                        height: 60.h,
-
-                                                        child: Padding(
-                                                          padding: EdgeInsets.only(left: 0, top: 20),
-                                                          child: Text(
-                                                            "Add/Save",
-                                                            style: TextStyle(
-                                                              color: Colors.black,
-                                                              fontSize: 18,
-                                                              fontWeight: FontWeight.w600,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Divider(),
-                                                      //---------------TextFields------------//
-                                                      Center(
-                                                          child: SizedBox(
-                                                              width: 300.w,
-                                                              height: 45.h,
-                                                              child: TextFormField(
-                                                                style: TextStyle(color: Colors.black),
-
-                                                                controller: nameController,
-                                                                decoration: InputDecoration(label: Text("Name (Alphabets Only") ,
-
-                                                                  border: OutlineInputBorder(),
-
-                                                                ),))),
-                                                      SizedBox(height: 10.w,),
-
-                                                      Center(
-                                                        child: Container(
+                                                      children: <Widget>[
+                                                        Container(
                                                           width: 300.w,
-                                                          height: 45.h,
+                                                          height: 60.h,
 
-                                                          child: TextFormField(
-                                                            controller: emailController,
-                                                            style: TextStyle(color: Colors.black),
-
-                                                            decoration: InputDecoration(
-
-                                                              label: Text("Email") ,
-
-                                                              border: OutlineInputBorder(),
-                                                            ),),
-                                                        ),
-                                                      ),
-
-
-                                                      SizedBox(height: 10.h,),
-                                                      Center(
-                                                        child: Container(
-                                                          width: 300.w,
-                                                          height: 45.h,
-
-                                                          child: TextFormField(
-                                                            controller: passwordController,
-                                                            style: TextStyle(color: Colors.black),
-
-                                                            decoration: InputDecoration(
-
-                                                              label: Text("Password") ,
-
-                                                              border: OutlineInputBorder(),
-                                                            ),),
-                                                        ),
-                                                      ),
-                                                      SizedBox(height: 20.h,),
-
-                                                      Divider(),
-
-
-
-
-
-                                                      Padding(
-                                                        padding:  EdgeInsets.only(left:120.w,top: 10.h),
-                                                        child: Row(children: [
-
-                                                          GestureDetector(
-                                                            onTap:(){
-
-                                                              Navigator.pop(context);
-
-                                                            },
-
-
-                                                            child: Padding(
-                                                              padding: EdgeInsets.only(left: 0, top: 10),
-                                                              child: Text(
-                                                                "Close",
-                                                                style: TextStyle(
-                                                                  color: Colors.pink.shade400,
-                                                                  fontSize: 18,
-                                                                  fontWeight: FontWeight.w600,
-                                                                ),
+                                                          child: Padding(
+                                                            padding: EdgeInsets.only(left: 0, top: 20),
+                                                            child: Text(
+                                                              "Add/Save",
+                                                              style: TextStyle(
+                                                                color: Colors.black,
+                                                                fontSize: 18,
+                                                                fontWeight: FontWeight.w600,
                                                               ),
                                                             ),
                                                           ),
+                                                        ),
+                                                        Divider(),
+                                                        //---------------TextFields------------//
+                                                        Center(
+                                                            child: SizedBox(
+                                                                width: 300.w,
+                                                                height: 45.h,
+                                                                child: TextFormField(
+                                                                  style: TextStyle(color: Colors.black),
 
-                                                          SizedBox(width: 10.w,),
+                                                                  controller: nameController,
+                                                                  decoration: InputDecoration(label: Text("Name (Alphabets Only") ,
 
-                                                          GestureDetector(
-                                                              onTap:()async{
+                                                                    border: OutlineInputBorder(),
 
-                                                                  String response=await apiService.userSignUp(nameController.text,
-                                                                      emailController.text,
-                                                                      passwordController.text, "technician", "", "", "");
-                                                                  if(response=="200"){
-                                                                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                                                                     return AddTechnician();
-                                                                   }));
-                                                                  }
+                                                                  ),))),
+                                                        SizedBox(height: 10.w,),
+
+                                                        Center(
+                                                          child: Container(
+                                                            width: 300.w,
+                                                            height: 45.h,
+
+                                                            child: TextFormField(
+                                                              controller: emailController,
+                                                              style: TextStyle(color: Colors.black),
+
+                                                              decoration: InputDecoration(
+
+                                                                label: Text("Email") ,
+
+                                                                border: OutlineInputBorder(),
+                                                              ),),
+                                                          ),
+                                                        ),
+
+
+                                                        SizedBox(height: 10.h,),
+                                                        Center(
+                                                          child: Container(
+                                                            width: 300.w,
+                                                            height: 45.h,
+
+                                                            child: TextFormField(
+                                                              controller: passwordController,
+                                                              style: TextStyle(color: Colors.black),
+
+                                                              decoration: InputDecoration(
+
+                                                                label: Text("Password") ,
+
+                                                                border: OutlineInputBorder(),
+                                                              ),),
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 20.h,),
+
+                                                        Divider(),
 
 
 
 
 
+                                                        Padding(
+                                                          padding:  EdgeInsets.only(left:120.w,top: 10.h),
+                                                          child: Row(children: [
 
+                                                            GestureDetector(
+                                                              onTap:(){
+
+                                                                Navigator.pop(context);
 
                                                               },
 
@@ -265,22 +231,59 @@ void initState(){
                                                               child: Padding(
                                                                 padding: EdgeInsets.only(left: 0, top: 10),
                                                                 child: Text(
-                                                                  "Save",
+                                                                  "Close",
                                                                   style: TextStyle(
-                                                                    color: Colors.lightGreen.shade400,
+                                                                    color: Colors.pink.shade400,
                                                                     fontSize: 18,
                                                                     fontWeight: FontWeight.w600,
                                                                   ),
                                                                 ),
-                                                              )),
+                                                              ),
+                                                            ),
+
+                                                            SizedBox(width: 10.w,),
+
+                                                            GestureDetector(
+                                                                onTap:()async{
+
+                                                                    String response=await apiService.userSignUp(nameController.text,
+                                                                        emailController.text,
+                                                                        passwordController.text, "technician", "", "", "");
+                                                                    if(response=="200"){
+                                                                     Navigator.push(context, MaterialPageRoute(builder: (context){
+                                                                       return AddTechnician();
+                                                                     }));
+                                                                    }
 
 
-                                                        ],),
-                                                      )
 
 
-                                                      // Add your other widgets here
-                                                    ],
+
+
+
+                                                                },
+
+
+                                                                child: Padding(
+                                                                  padding: EdgeInsets.only(left: 0, top: 10),
+                                                                  child: Text(
+                                                                    "Save",
+                                                                    style: TextStyle(
+                                                                      color: Colors.lightGreen.shade400,
+                                                                      fontSize: 18,
+                                                                      fontWeight: FontWeight.w600,
+                                                                    ),
+                                                                  ),
+                                                                )),
+
+
+                                                          ],),
+                                                        )
+
+
+                                                        // Add your other widgets here
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),

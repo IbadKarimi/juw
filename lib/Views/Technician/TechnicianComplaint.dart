@@ -2,11 +2,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:juw/ApiServices/Api.dart';
 import 'package:juw/widgets/CustomAppBar.dart';
 import 'package:juw/widgets/CustomSupervisorDrawer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 
+import '../../Models/CategoriesModel.dart';
+import '../../Models/SupervisorModel.dart';
+import '../../Models/UserModel.dart';
 import '../../widgets/CustomTecnicianDrawer.dart';
+import 'package:intl/intl.dart';
 
 
 
@@ -18,6 +24,17 @@ class TechnicianComplaint extends StatefulWidget{
 class _TechnicianComplaint   extends State< TechnicianComplaint >{
   @override
   //The instance to be injected
+  int? categoryId;
+  int ?subCategoryId;
+  List<UserModel> getComplaintData=[];
+  List<CategoriesModel> getCategoryData=[];
+  List<CategoriesModel> getSubCategoryData=[];
+  List<SupervisorModel> getSuperVisorComplaintData=[];
+  ApiServices apiService=ApiServices();
+  String?categoryName;
+  String?subCategoryName;
+
+  int? userId;
   bool _isLoading = false;
   TextEditingController titleController=TextEditingController();
   TextEditingController descriptionController=TextEditingController();
@@ -44,7 +61,7 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
       DateTime combinedDateTime = DateTime(pickedDate.year, pickedDate.month, pickedDate.day, );
       setState(() {
         selectedDateTime = combinedDateTime;
-        // formattedSelectedDateTime = DateFormat('dd/MM/yyyy hh:mm a').format(combinedDateTime);
+        formattedSelectedDateTime = DateFormat('dd/MM/yyyy hh:mm a').format(combinedDateTime);
 
 
       });
@@ -71,6 +88,64 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
 
 
   ];
+
+  void initState(){
+    onLoad();
+    apiService.getComplain().then((value){
+      setState(() {
+        getComplaintData.addAll(value);
+      });
+
+      for(int i=0;i<getComplaintData.length;i++){
+        print("name is ==========="+getComplaintData[i].status.toString());
+      }
+    });
+    apiService.getSupervisorComplaint().then((value){
+      setState(() {
+        getSuperVisorComplaintData.addAll(value);
+      });
+
+      for(int i=0;i<getSuperVisorComplaintData.length;i++){
+        print("name is ==========="+getSuperVisorComplaintData[i].status.toString());
+      }
+    });
+
+    apiService.getCategory().then((value){
+      setState(() {
+        getCategoryData.addAll(value);
+      });
+
+      for(int i=0;i<getCategoryData.length;i++){
+        print("name is ==========="+getCategoryData[i].categoryName.toString());
+      }
+    });
+
+    apiService.getSubCategory().then((value){
+      setState(() {
+        getSubCategoryData.addAll(value);
+      });
+
+      for(int i=0;i<getSubCategoryData.length;i++){
+        print("name is ==========="+getSubCategoryData[i].subCategoryName.toString());
+      }
+    });
+
+
+    super.initState();
+  }
+  onLoad()async{
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+
+      userId=prefs.getInt("userId");
+
+      print("id is integer is =+++++++++++++++"+userId.toString());
+
+    });
+
+
+  }
 
 
 
@@ -126,6 +201,9 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
                                 ),
 
                                 //--------1st Column
+                                for(int i=0;i<getComplaintData.length;i++)
+                                  if(getComplaintData[i].technicianId==userId)
+
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,7 +221,7 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
                                             "ID",
                                             style: TextStyle(
                                               color: Colors.grey.shade600,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -154,7 +232,7 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
                                             "COMPLAINT BY",
                                             style: TextStyle(
                                               color: Colors.grey.shade600,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -166,7 +244,7 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
                                             "TITLE",
                                             style: TextStyle(
                                               color: Colors.grey.shade600,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -178,7 +256,7 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
                                             "TECHNICIAN",
                                             style: TextStyle(
                                               color: Colors.grey.shade600,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -194,7 +272,7 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
                                             "CREATED AT",
                                             style: TextStyle(
                                               color: Colors.grey.shade600,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -206,7 +284,7 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
                                             "RESOLVE AT",
                                             style: TextStyle(
                                               color: Colors.grey.shade600,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -218,7 +296,7 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
                                             "ACTION",
                                             style: TextStyle(
                                               color: Colors.grey.shade600,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -233,9 +311,9 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
 
 
                                     Container(
-                                      margin: EdgeInsets.only(top:30.h,left: 50.w),
+                                      margin: EdgeInsets.only(top:30.h,left: 30.w),
                                       width: 1,
-                                      height: 390.h,// Adjust the width to control the line thickness
+                                      height: 230.h,// Adjust the width to control the line thickness
                                       color: Colors.grey,
                                     ),
                                     SizedBox(width: 20.w,),
@@ -247,9 +325,9 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
 
 
                                         Padding(
-                                          padding: EdgeInsets.only(top: 30.h, left: 24.w, ),
+                                          padding: EdgeInsets.only(top: 30.h, left: 5.w, ),
                                           child:  Text(
-                                            "ID",
+                                            getComplaintData[i].complaintId.toString(),
                                             style: TextStyle(
                                               color: Colors.grey,
                                               fontSize: 14.sp,
@@ -258,12 +336,12 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
                                           ),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(top: 10.h, left: 24.w, ),
+                                          padding: EdgeInsets.only(top: 10.h, left: 5.w, ),
                                           child:  Text(
-                                            "COMPLAINT BY",
+                                            "Staff",
                                             style: TextStyle(
                                               color: Colors.grey,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -271,24 +349,24 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
 
 
                                         Padding(
-                                          padding: EdgeInsets.only(top: 10.h, left: 24.w, ),
+                                          padding: EdgeInsets.only(top: 10.h, left: 5.w, ),
                                           child:  Text(
-                                            "TITLE",
+                                            getComplaintData[i].title.toString(),
                                             style: TextStyle(
                                               color: Colors.grey,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
                                         ),
 
                                         Padding(
-                                          padding: EdgeInsets.only(top: 10.h, left: 24.w, ),
+                                          padding: EdgeInsets.only(top: 10.h, left: 5.w, ),
                                           child:  Text(
                                             "TECHNICIAN",
                                             style: TextStyle(
                                               color: Colors.grey,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -299,24 +377,24 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
 
 
                                         Padding(
-                                          padding: EdgeInsets.only(top: 10.h, left: 24.w, ),
+                                          padding: EdgeInsets.only(top: 10.h, left: 5.w, ),
                                           child:  Text(
-                                            "CREATED AT",
+                                            getComplaintData[i].createdAT.toString(),
                                             style: TextStyle(
                                               color: Colors.grey,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
                                         ),
 
                                         Padding(
-                                          padding: EdgeInsets.only(top: 10.h, left: 24.w,bottom: 0.h ),
+                                          padding: EdgeInsets.only(top: 10.h, left: 5.w,bottom: 0.h ),
                                           child:  Text(
-                                            "RESOLVE AT",
+                                            getComplaintData[i].resolvedAT.toString(),
                                             style: TextStyle(
                                               color: Colors.grey,
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
@@ -324,9 +402,31 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
 
 
                                         Row(children: [
-                                          SizedBox(width: 10.w,),
+                                          SizedBox(width: 0.w,),
                                           //--Icons eyee
                                           IconButton(onPressed: (){
+                                            print("CategoryId"+ getSuperVisorComplaintData[i].categoryId.toString());
+                                            print("Sub CategoryId"+ getSuperVisorComplaintData[i].subCategoryId.toString());
+                                            for(int index=0;index<getCategoryData.length;index++){
+                                              if(getCategoryData[index].categoryId== getSuperVisorComplaintData[i].categoryId){
+                                                setState(() {
+                                                  categoryName=getCategoryData[index].categoryName.toString();
+                                                  print("Category Name is "+categoryName.toString());
+
+                                                });
+
+                                              }
+
+                                            }
+                                            for(int index=0;index<getSubCategoryData.length;index++){
+                                              if(getSubCategoryData[index].subCategoryId== getSuperVisorComplaintData[i].subCategoryId){
+                                                setState(() {
+                                                  subCategoryName=getSubCategoryData[index].subCategoryName.toString();
+                                                  print("Sub Category Name is "+subCategoryName.toString());
+                                                });
+
+
+                                              }}
                                             showDialog(context: context, builder: (context){
                                               return
                                                 AlertDialog(
@@ -351,7 +451,7 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
                                                           child: Padding(
                                                             padding: EdgeInsets.only(left: 0, top: 20),
                                                             child: Text(
-                                                              "elec",
+                                                              getComplaintData[i].title.toString(),
                                                               style: TextStyle(
                                                                 color: Colors.black,
                                                                 fontSize: 18,
@@ -368,7 +468,7 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
                                                         Padding(
                                                           padding: EdgeInsets.only(left: 0, top: 10),
                                                           child: Text(
-                                                            "CCTV Camera",
+                                                            categoryName.toString(),
                                                             style: TextStyle(
                                                               color: Colors.black,
                                                               fontSize: 18,
@@ -384,7 +484,7 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
                                                         Padding(
                                                           padding: EdgeInsets.only(left: 0, top: 10),
                                                           child: Text(
-                                                            "CCTV repair install and trouble shooting",
+                                                            subCategoryName.toString(),
                                                             style: TextStyle(
                                                               color: Colors.black38,
                                                               fontSize: 14,
@@ -409,7 +509,7 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
                                                         Padding(
                                                           padding: EdgeInsets.only(left: 0, top: 10),
                                                           child: Text(
-                                                            "xyz",
+                                                            getComplaintData[i].description.toString(),
                                                             style: TextStyle(
                                                               color: Colors.black38,
                                                               fontSize: 14,
@@ -426,7 +526,7 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
 
 
                                                         Padding(
-                                                          padding:  EdgeInsets.only(left:220.w,top: 10.h),
+                                                          padding:  EdgeInsets.only(left:170.w,top: 10.h),
                                                           child: Row(children: [
 
                                                             GestureDetector(
@@ -483,7 +583,9 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
 
 
                                           IconButton(onPressed: (){
+                                           print( getComplaintData[i].complaintId.toString());
                                             showDialog(context: context, builder: (context){
+
                                               return
                                                 AlertDialog(
 
@@ -507,7 +609,7 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
                                                           child: Padding(
                                                             padding: EdgeInsets.only(left: 0, top: 20),
                                                             child: Text(
-                                                              "Request to Extend Deadline",
+                                                              "Add Deadline",
                                                               style: TextStyle(
                                                                 color: Colors.black,
                                                                 fontSize: 18,
@@ -540,7 +642,7 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
                                                                     child: Icon(Icons.calendar_month),
                                                                   ),
                                                                   Padding(
-                                                                    padding:  EdgeInsets.only(left:5.w), child:Text( selectedDateTime.toString(),style: TextStyle(color: Colors.black,),),)
+                                                                    padding:  EdgeInsets.only(left:5.w), child:Text( "dd/mm//yy",style: TextStyle(color: Colors.black,),),)
                                                                 ],
                                                               )
 
@@ -571,7 +673,7 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
 
 
                                                         Padding(
-                                                          padding:  EdgeInsets.only(left:160.w,top: 10.h),
+                                                          padding:  EdgeInsets.only(left:100.w,top: 10.h),
                                                           child: Row(children: [
 
                                                             GestureDetector(
@@ -597,9 +699,16 @@ class _TechnicianComplaint   extends State< TechnicianComplaint >{
 
                                                             SizedBox(width: 10.w,),
                                                             GestureDetector(
-                                                              onTap:(){
+                                                              onTap:()async{
 
-                                                                Navigator.pop(context);
+                                                                print(formattedSelectedDateTime.toString().toString());
+                                                                print(getComplaintData[i].complaintId.toString().toString());
+                                                                var response=await apiService.technicianRequestDateChange(selectedDateTime as DateTime,getComplaintData[i].complaintId as int );
+                                                              if(response=="200"){
+                                                                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                                                                    return TechnicianComplaint();
+                                                                  }));
+                                                                }
 
                                                               },
 
